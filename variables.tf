@@ -1,69 +1,24 @@
-variable "vpc_name" { 
-  default = "guilherme-mitre-app-env-VPC"
-}
+variable "subnet_name" {}
+variable "key_name" {}
+variable "aws_region" {}
+variable "ec2_name" {}
+variable "ec2_type" {}
+variable "instance_sg_name" {}
+variable "instance_sg_desc" {}
+variable "instance_sg_ssh_cidr" {}
+variable "elb_name" {}
+variable "igw_name" {}
+variable "vpc_name" {}
+variable "elb_sg_name" {}
+variable "elb_sg_desc" {}
+variable "db_host" {}
+variable "db_port" {}
+variable "db_username" {}
+variable "db_password" {}
+variable "db_name" {}
+variable "ec2_count" {}
 
-variable "igw_name" { 
-  default = "guilherme-mitre-app-env-IGW"
-}
-
-variable "subnet_name" { 
-  default = "guilherme-mitre-app-env-SUBNET"
-}
-
-variable "elb_sg_name" { 
-  default = "guilherme-mitre-app-env-SG-ELB"
-}
-
-variable "elb_sg_desc" { 
-  default = "ELB Security Group for Guilherme Mitre APP ENV"
-}
-
-variable "instance_sg_name" { 
-  default = "guilherme-mitre-app-env-SG-EC2"
-}
-
-variable "instance_sg_desc" { 
-  default = "EC2 Security Group for Guilherme Mitre APP ENV"
-}
-
-variable "instance_sg_ssh_cidr" { 
-  default = "0.0.0.0/0"
-}
-
-variable "elb_name" {
-  default = "guilherme-mitre-app-env-ELB"
-}
-
-variable "ec2_type" {
-  default = "t2.micro"
-}
-
-variable "ec2_count" {
-  default = "2"
-}
-
-variable "ec2_name" {
-  default = "guilherme-mitre-app-env"
-}
-
-variable "public_key_path" {
-	default = "~/.ssh/id_rsa"
-}
-
-variable "private_key_path" {
-	default = "~/.ssh/id_rsa.pub"
-}
-
-variable "key_name" {
- 	description = "Desired name of AWS key pair"
-	default = "Guilherme-Mitre KEY"
-}
-
-variable "aws_region" {
-  description = "AWS region to launch servers."
-  default = "us-west-2"
-}
-
+#Maps for AMIs x Regions
 variable "aws_amis" {
   default = {
     us-west-2 = "ami-d732f0b7"

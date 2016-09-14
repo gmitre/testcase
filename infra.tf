@@ -32,7 +32,7 @@ resource "aws_route" "internet_access" {
 # Subnet
 resource "aws_subnet" "default" {
   vpc_id                  = "${aws_vpc.default.id}"
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = true
     tags {
         Name = "${var.subnet_name}"
@@ -93,7 +93,6 @@ resource "aws_security_group" "default" {
   }
 }
 
-
 resource "aws_elb" "web" {
   name = "${var.elb_name}"
 
@@ -109,6 +108,7 @@ resource "aws_elb" "web" {
   }
 
 }
+
 
 #SSH KEY
 resource "aws_key_pair" "auth" {
@@ -146,8 +146,13 @@ resource "aws_instance" "web" {
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
-      "sudo apt-get -y install nginx",
-      "sudo service nginx start"
+      "sudo apt-get -y install apt-transport-https ca-certificates",
+      "sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D",
+      "echo deb https://apt.dockerproject.org/repo ubuntu-trusty main | sudo tee -a /etc/apt/sources.list.d/docker.list",
+      "sudo apt-get update",
+      "sudo apt-get install -y docker-engine",
+      "sudo service docker start",
+      "sudo docker run --name wordpress --restart=always -d -p 80:80 -e WORDPRESS_DB_HOST=${var.db_host}:${var.db_port} -e WORDPRESS_DB_USER=${var.db_username} -e WORDPRESS_DB_PASSWORD=${var.db_password} -e WORDPRESS_DB_NAME=${var.db_name} wordpress"
     ]
   }
 }

@@ -5,7 +5,7 @@ APP="$1"
 ENV="$2"
 EC2_COUNT="$3"
 EC2_SIZE="$4"
-TERRAFORM="docker run --rm -v $HOME/.ssh/:/root/.ssh:ro -v $(pwd):/terraform -it gmitre/terraform"
+TERRAFORM="docker run --rm -v $(pwd):/terraform -it gmitre/terraform"
 ISNUMBER='^[0-9]+$'
 
 if [ -z "$APP" ]; then
@@ -62,11 +62,8 @@ instance_sg_desc="EC2 Security Group for $LABEL"
 instance_sg_ssh_cidr="$SSH_CIDR"
 elb_name="$LABEL"
 ec2_type="$EC2_SIZE"
-public_key_path="/terraform/terraform_key.pub"
-private_key_path="/terraform/terraform_key"
 key_name="$LABEL-KEYPAIR"
-#aws_region
 ec2_count="\"$EC2_COUNT\""
 ec2_name="$LABEL"
 
-eval "$TERRAFORM $ACTION -var 'public_key_path=$public_key_path' -var 'private_key_path=$private_key_path' -var 'vpc_name=$vpc_name' -var 'igw_name=$igw_name' -var 'subnet_name=$subnet_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_desc=$elb_sg_desc' -var 'instance_sg_name=$instance_sg_name' -var 'instance_sg_desc=$instance_sg_desc' -var 'instance_sg_ssh_cidr=$instance_sg_ssh_cidr' -var 'elb_name=$elb_name' -var 'ec2_type=$ec2_type' -var 'key_name=$key_name' -var 'ec2_count=$ec2_count' -var 'ec2_name=$ec2_name'"
+eval "$TERRAFORM $ACTION -var-file=settings.tfvars -var 'public_key_path=$public_key_path' -var 'private_key_path=$private_key_path' -var 'vpc_name=$vpc_name' -var 'igw_name=$igw_name' -var 'subnet_name=$subnet_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_desc=$elb_sg_desc' -var 'instance_sg_name=$instance_sg_name' -var 'instance_sg_desc=$instance_sg_desc' -var 'instance_sg_ssh_cidr=$instance_sg_ssh_cidr' -var 'elb_name=$elb_name' -var 'ec2_type=$ec2_type' -var 'key_name=$key_name' -var 'ec2_count=$ec2_count' -var 'ec2_name=$ec2_name'"
