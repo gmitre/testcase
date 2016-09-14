@@ -17,6 +17,10 @@ variable "db_username" {}
 variable "db_password" {}
 variable "db_name" {}
 variable "ec2_count" {}
+variable "public_key_path" {}
+variable "private_key_path" {}
+variable "access_key" {}
+variable "secret_key" {}
 
 #Maps for AMIs x Regions
 variable "aws_amis" {

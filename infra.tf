@@ -132,17 +132,11 @@ resource "aws_instance" "web" {
   ami = "${lookup(var.aws_amis, var.aws_region)}"
   key_name = "${aws_key_pair.auth.id}"
 
-  # Our Security group to allow HTTP and SSH access
   vpc_security_group_ids = ["${aws_security_group.default.id}"]
 
-  # We're going to launch into the same subnet as our ELB. In a production
-  # environment it's more common to have a separate private subnet for
-  # backend instances.
   subnet_id = "${aws_subnet.default.id}"
 
-  # We run a remote provisioner on the instance after creating it.
-  # In this case, we just install nginx and start it. By default,
-  # this should be on port 80
+
   provisioner "remote-exec" {
     inline = [
       "sudo apt-get -y update",
@@ -151,7 +145,6 @@ resource "aws_instance" "web" {
       "echo deb https://apt.dockerproject.org/repo ubuntu-trusty main | sudo tee -a /etc/apt/sources.list.d/docker.list",
       "sudo apt-get update",
       "sudo apt-get install -y docker-engine",
-      "sudo service docker start",
       "sudo docker run --name wordpress --restart=always -d -p 80:80 -e WORDPRESS_DB_HOST=${var.db_host}:${var.db_port} -e WORDPRESS_DB_USER=${var.db_username} -e WORDPRESS_DB_PASSWORD=${var.db_password} -e WORDPRESS_DB_NAME=${var.db_name} wordpress"
     ]
   }

@@ -32,8 +32,10 @@ fi
 
 if [ $EC2_COUNT -ge 1 ]; then
 	ACTION="apply"
+	ACTION_LABEL="Applying"
 else
 	ACTION="destroy"
+	ACTION_LABEL="Destroying"
 fi
 
 if [ -z "$EC2_SIZE" ]; then
@@ -66,4 +68,10 @@ key_name="$LABEL-KEYPAIR"
 ec2_count="\"$EC2_COUNT\""
 ec2_name="$LABEL"
 
-eval "$TERRAFORM $ACTION -var-file=settings.tfvars -var 'public_key_path=$public_key_path' -var 'private_key_path=$private_key_path' -var 'vpc_name=$vpc_name' -var 'igw_name=$igw_name' -var 'subnet_name=$subnet_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_desc=$elb_sg_desc' -var 'instance_sg_name=$instance_sg_name' -var 'instance_sg_desc=$instance_sg_desc' -var 'instance_sg_ssh_cidr=$instance_sg_ssh_cidr' -var 'elb_name=$elb_name' -var 'ec2_type=$ec2_type' -var 'key_name=$key_name' -var 'ec2_count=$ec2_count' -var 'ec2_name=$ec2_name'"
+echo "$ACTION_LABEL configuration, hang on tight!"
+eval "$TERRAFORM $ACTION -var-file=settings.tfvars -var 'vpc_name=$vpc_name' -var 'igw_name=$igw_name' -var 'subnet_name=$subnet_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_name=$elb_sg_name' -var 'elb_sg_desc=$elb_sg_desc' -var 'instance_sg_name=$instance_sg_name' -var 'instance_sg_desc=$instance_sg_desc' -var 'instance_sg_ssh_cidr=$instance_sg_ssh_cidr' -var 'elb_name=$elb_name' -var 'ec2_type=$ec2_type' -var 'key_name=$key_name' -var 'ec2_count=$ec2_count' -var 'ec2_name=$ec2_name'"
+echo "Done!"
+if [ "$ACTION" == "apply" ]; then
+	echo -n "Your address is: http://"
+	eval "$TERRAFORM  output address"
+fi
