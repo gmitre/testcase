@@ -1,29 +1,29 @@
 variable "vpc_name" { 
-  default = "guilherme-mitre-PROJECT-ENV"
+  default = "guilherme-mitre-app-env-VPC"
 }
 
 variable "igw_name" { 
-  default = "guilherme-mitre-PROJECT-ENV"
+  default = "guilherme-mitre-app-env-IGW"
 }
 
 variable "subnet_name" { 
-  default = "guilherme-mitre-PROJECT-ENV"
+  default = "guilherme-mitre-app-env-SUBNET"
 }
 
 variable "elb_sg_name" { 
-  default = "guilherme-mitre-PROJECT-ENV-SG-ELB"
+  default = "guilherme-mitre-app-env-SG-ELB"
 }
 
 variable "elb_sg_desc" { 
-  default = "ELB Security Group for Guilherme Mitre PROJECT ENV"
+  default = "ELB Security Group for Guilherme Mitre APP ENV"
 }
 
 variable "instance_sg_name" { 
-  default = "guilherme-mitre-PROJECT-ENV-SG-EC2"
+  default = "guilherme-mitre-app-env-SG-EC2"
 }
 
 variable "instance_sg_desc" { 
-  default = "EC2 Security Group for Guilherme Mitre PROJECT ENV"
+  default = "EC2 Security Group for Guilherme Mitre APP ENV"
 }
 
 variable "instance_sg_ssh_cidr" { 
@@ -31,7 +31,7 @@ variable "instance_sg_ssh_cidr" {
 }
 
 variable "elb_name" {
-  default = "guilherme-mitre-project-env"
+  default = "guilherme-mitre-app-env-ELB"
 }
 
 variable "ec2_type" {
@@ -43,7 +43,7 @@ variable "ec2_count" {
 }
 
 variable "ec2_name" {
-  default = "guilherme-mitre-project-env"
+  default = "guilherme-mitre-app-env"
 }
 
 variable "public_key_path" {
